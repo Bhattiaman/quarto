@@ -1,0 +1,48 @@
+---
+title: "Quarto projecct"
+author: "Data Team"
+date: "2024-06-20"
+format:
+  html:
+    embed-resources: true
+    code-fold: true
+    theme: cosmo
+    toc: true
+---
+
+# Global Child Malnutrition Crisis
+
+## Introduction
+
+Child malnutrition remains a critical global health challenge affecting millions of children worldwide. This report analyzes key indicators across six high-burden countries:
+
+**Key Indicators:**
+- **Stunting**: Chronic malnutrition (low height-for-age)
+- **Wasting**: Acute malnutrition (low weight-for-height)
+- **Overweight**: Emerging nutrition challenge
+
+```{python}
+#| label: setup
+#| include: false
+import pandas as pd
+import plotnine as p9
+import geopandas as gpd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+# Load data
+df1 = pd.read_csv("data/unicef_indicator_1.csv")
+df2 = pd.read_csv("data/unicef_indicator_2.csv")
+merged_df = pd.merge(df1, df2, on=['country', 'year'])
+
+# Add ISO codes for mapping
+country_to_iso = {
+    'Afghanistan': 'AFG',
+    'Bangladesh': 'BGD',
+    'India': 'IND',
+    'Nigeria': 'NGA',
+    'Pakistan': 'PAK',
+    'Ethiopia': 'ETH'
+}
+merged_df['iso_a3'] = merged_df['country'].map(country_to_iso)
